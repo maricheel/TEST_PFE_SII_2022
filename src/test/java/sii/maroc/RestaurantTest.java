@@ -2,6 +2,9 @@ package sii.maroc;
 
 import org.junit.Assert;
 import org.junit.Test;
+
+import sii.maroc.exceptions.UnavailableDishException;
+
 import static org.fest.assertions.api.Assertions.assertThat;
 
 /*recipe of Tomato Mozzarella Salad is
@@ -18,7 +21,7 @@ import static org.fest.assertions.api.Assertions.assertThat;
 public class RestaurantTest {
 
     @Test
-    public void shouldServeTomatoMozzarellaSalad(){
+    public void shouldServeTomatoMozzarellaSalad() throws UnavailableDishException{
         Restaurant restaurant = new Restaurant("6 balls Mozzarella", "20 tomatoes", "olive oil", "pepper");
         Ticket ticket = restaurant.order("1 Tomato Mozzarella Salad");
         Meal meal = restaurant.retrieve(ticket);
@@ -28,12 +31,16 @@ public class RestaurantTest {
 
     /**
      * write a test to ensure that when a recipe require out of stocks ingredients we receive an UnavailableDishException (unchecked)
+     * @throws UnavailableDishException 
      */
 // Allowed modification zone starts here
-  /*  @Test
-    public void shouldFailWhenOutOfStock(){
-        Assert.fail();
-    }*/
+   @Test(expected = UnavailableDishException.class)
+    public void shouldFailWhenOutOfStock() throws UnavailableDishException{
+    	 Restaurant restaurant = new Restaurant("6 balls Mozzarella", "20 tomatoes", "olive oil", "pepper");
+         Ticket ticket = restaurant.order("50 Tomato Mozzarella Salad");
+         Meal meal = restaurant.retrieve(ticket);
+         Assert.fail();
+    }
 // Allowed modification zone ends here
 
 
@@ -43,15 +50,16 @@ public class RestaurantTest {
      * first dish takes standard time, subsequents dish have their cooking time halved
      *
      * here : first = 6 ; 2nd = 3 ; 3rd = 3 ; 4th = 3 => 15 minutes
+     * @throws UnavailableDishException 
      */
-  /*  @Test
-    public void shouldCookFasterWhenDoingMultipleInstanceOfTheSameDish(){
+   @Test
+    public void shouldCookFasterWhenDoingMultipleInstanceOfTheSameDish() throws UnavailableDishException{
         Restaurant restaurant = new Restaurant("6 balls Mozzarella", "20 tomatoes", "olive oil", "sea salt");
         Ticket ticket = restaurant.order("4 Tomato Mozzarella Salad");
         Meal meal = restaurant.retrieve(ticket);
         assertThat(meal.servedDishes()).isEqualTo(4);
         assertThat(meal.cookingDuration()).isEqualTo(15);
-    }*/
+    }
 
 
     /**
@@ -70,9 +78,10 @@ public class RestaurantTest {
      *
      * Regarding baking :
      *   oven have unlimited capacity multiple dishes can be baked at the same time
+     * @throws UnavailableDishException 
      */
    /* @Test
-    public void shouldServeMixedOrders(){
+    public void shouldServeMixedOrders() throws UnavailableDishException{
         Restaurant restaurant = new Restaurant("1Kg Flour", "50 tomatoes", "sea salt", "6 balls Mozzarella", "olive oil", "water");
         Ticket ticket = restaurant.order("3 Tomato Mozzarella Salad").and("2 Pizza");
         Meal meal = restaurant.retrieve(ticket);
