@@ -12,12 +12,12 @@ public class Restaurant {
 
 	public Ticket order(String string) {
 		// TODO Auto-generated method stub
-		return null;
+		return new Ticket();
 	}
 
 	public Meal retrieve(Ticket ticket) {
 		// TODO Auto-generated method stub
-		return null;
+		return new Meal();
 	}
 
 
